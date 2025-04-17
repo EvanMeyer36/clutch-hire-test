@@ -1,0 +1,130 @@
+.form-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .content-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+  }
+  
+  .column {
+    flex: 1;
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 40px;
+    max-width: 450px;
+  }
+  
+  .logo {
+    width: 180px;
+    margin-bottom: 40px;
+  }
+  
+  .form-title {
+    font-size: 28px;
+    margin-bottom: 30px;
+    color: #444;
+    font-family: "Roboto", sans-serif;
+    font-weight: normal;
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .input-container {
+    position: relative;
+  }
+  
+  .form-input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    height: 48px;
+  }
+  
+  .form-label {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #2e7d32;
+    font-size: 14px;
+    pointer-events: none;
+    transition: all 0.2s ease;
+    font-family: "Roboto Slab", serif;
+  }
+  
+  .form-input:focus + .form-label,
+  .form-input:not(:placeholder-shown) + .form-label {
+    top: 0;
+    left: 8px;
+    font-size: 12px;
+    background-color: white;
+    padding: 0 2px;
+  }
+  
+  .form-input::placeholder {
+    color: transparent;
+  }
+  
+  .button-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 30px;
+  }
+  
+  .submit-button {
+    background-color: #1a4971;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+    max-width: 150px;
+  }
+  
+  .submit-button:disabled {
+    background-color: #95a5a6;
+    cursor: not-allowed;
+  }
+  
+  .error-message {
+    color: #e74c3c;
+    margin-top: 10px;
+    font-size: 14px;
+  }
+  
+  .thank-you-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .thank-you-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .thank-you-title {
+    font-size: 32px;
+    margin-bottom: 20px;
+    color: #444;
+    font-weight: normal;
+  }
+  
+  .thank-you-message {
+    font-size: 20px;
+    color: #666;
+  }
