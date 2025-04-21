@@ -1,12 +1,18 @@
 <template>
   <div class="form-container">
     <div class="content-container">
-      <!-- Form Column -->
       <div class="column" v-if="!submitted">
-        <img src="/src/assets/image.png" alt="GreenTech Logo" class="logo" />
-
+        <!-- Image for GreenTech Logo -->
+        <img
+          :src="require('@/assets/image.png')"
+          alt="GreenTech Logo"
+          class="logo"
+        />
+        <!-- Title -->
         <h1 class="form-title">Have us reach out</h1>
 
+        <!-- Starting form -->
+        <!-- Handles the First name -->
         <form @submit.prevent="handleSubmit">
           <div class="form-group">
             <label class="form-label">First Name</label>
@@ -17,7 +23,7 @@
               required
             />
           </div>
-
+          <!-- Handles Last Name -->
           <div class="form-group">
             <label class="form-label">Last Name</label>
             <input
@@ -27,7 +33,7 @@
               required
             />
           </div>
-
+          <!-- Handles the email -->
           <div class="form-group">
             <label class="form-label">Email</label>
             <input
@@ -37,7 +43,7 @@
               required
             />
           </div>
-
+          <!-- Handles Phone number -->
           <div class="form-group">
             <label class="form-label">Phone Number</label>
             <input
@@ -47,7 +53,7 @@
               required
             />
           </div>
-
+          <!-- Handles company -->
           <div class="form-group">
             <label class="form-label">Company</label>
             <input
@@ -57,11 +63,11 @@
               required
             />
           </div>
-
+          <!-- Error messagae in case of mistakes -->
           <div v-if="errorMessage" class="error-message">
             {{ errorMessage }}
           </div>
-
+          <!-- Submit button container -->
           <div class="button-container">
             <button
               type="submit"
@@ -74,10 +80,13 @@
         </form>
       </div>
 
-      <!-- Thank You Column -->
-      <div class="column thank-you-column" v-if="submitted">
-        <img src="/logo.svg" alt="GreenTech Logo" class="logo" />
-
+      <!-- Thank You Section after submitting -->
+      <div class="thank-you-column" v-if="submitted">
+        <img
+          :src="require('@/assets/image.png')"
+          alt="GreenTech Logo"
+          class="logo"
+        />
         <div class="thank-you-content">
           <h2 class="thank-you-title">Thank you</h2>
           <p class="thank-you-message">We will contact you shortly</p>
@@ -86,8 +95,9 @@
     </div>
   </div>
 </template>
-
+<!-- Scripting for API -->
 <script>
+// Layout for the forms inputs so that the API can take the info and put it into the database
 export default {
   name: "ContactForm",
   data() {
@@ -103,11 +113,18 @@ export default {
       isSubmitting: false,
       errorMessage: "",
     };
-  },
+  }, // Submit method handling for when the form is completed
   methods: {
     async handleSubmit() {
       this.isSubmitting = true;
       this.errorMessage = "";
+
+      const cleanedForm = {
+        ...this.form,
+        phone: this.form.phone.replace(/\D/g, ""), // digits only
+      };
+
+      console.log("Submitting:", JSON.stringify(cleanedForm, null, 2));
 
       try {
         const res = await fetch(
@@ -115,14 +132,17 @@ export default {
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(this.form),
+            body: JSON.stringify(cleanedForm),
           }
         );
 
         if (!res.ok) {
           const errorData = await res.json().catch(() => null);
+          console.error("API Response Error:", errorData);
           throw new Error(
-            errorData?.message || `Failed to submit (Status ${res.status})`
+            errorData?.message ||
+              JSON.stringify(errorData) ||
+              `Failed to submit (Status ${res.status})`
           );
         }
 
@@ -136,7 +156,7 @@ export default {
       } finally {
         this.isSubmitting = false;
       }
-    },
+    }, // Form reset procedure for when the timeout goes back to the form
     resetForm() {
       this.form = {
         first: "",
@@ -151,114 +171,5 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.form-container {
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 20px;
-}
-
-.content-container {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-}
-
-.column {
-  flex: 1;
-  background-color: #fff;
-  border-radius: 8px;
-  padding: 40px;
-  max-width: 450px;
-}
-
-.logo {
-  width: 180px;
-  margin-bottom: 40px;
-}
-
-.form-title {
-  font-size: 28px;
-  margin-bottom: 30px;
-  color: #444;
-  font-family: "Roboto", sans-serif;
-  font-weight: normal;
-}
-
-.form-group {
-  margin-bottom: 20px;
-}
-
-.form-label {
-  display: block;
-  color: #2e7d32;
-  font-size: 14px;
-  margin-bottom: 8px;
-  font-family: "Roboto Slab", serif;
-}
-
-.form-input {
-  width: 100%;
-  padding: 12px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 16px;
-}
-
-.button-container {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 30px;
-}
-
-.submit-button {
-  background-color: #1a4971;
-  color: white;
-  border: none;
-  padding: 12px 20px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
-  width: 100%;
-  max-width: 150px;
-}
-
-.submit-button:disabled {
-  background-color: #95a5a6;
-  cursor: not-allowed;
-}
-
-.error-message {
-  color: #e74c3c;
-  margin-top: 10px;
-  font-size: 14px;
-}
-
-.thank-you-column {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.thank-you-content {
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
-.thank-you-title {
-  font-size: 32px;
-  margin-bottom: 20px;
-  color: #444;
-  font-weight: normal;
-}
-
-.thank-you-message {
-  font-size: 20px;
-  color: #666;
-}
-</style>
+<!-- Styling put into CSS for better readablity -->
+<style src="./style.css"></style>

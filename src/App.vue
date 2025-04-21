@@ -1,4 +1,5 @@
 <script>
+// Defult to the ContactForm.vue file to start the form
 import ContactForm from "./components/ContactForm.vue";
 
 export default {
